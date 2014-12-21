@@ -5,7 +5,10 @@ set -e
 
 BUILD_DIR=$1
 CACHE_DIR=$2
+
 PROFILE_PATH="$BUILD_DIR/.profile.d/boost.sh"
+mkdir -p $(dirname $PROFILE_PATH)
+
 source $(dirname $0)/../config.sh
 
 function mktmpdir() {
