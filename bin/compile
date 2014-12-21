@@ -24,8 +24,8 @@ boost_lib_path="$BUILD_DIR/vendor/boost"
 mkdir -p "$boost_lib_path"
 VENDORED_BOOST="$(mktmpdir boost)"
 curl "$BOOST_DOWNLOAD_URL" -L -s -o - | tar xzf - -C "$VENDORED_BOOST"
-mv $VENDORED_BOOST/boost_* $VENDORED_BOOST
-rm $VENDORED_BOOST/boost_*
+mv $VENDORED_BOOST/boost_*/* $VENDORED_BOOST
+rm -r $VENDORED_BOOST/boost_*/
 cp -R $VENDORED_BOOST/* "$boost_lib_path"
 set-env "CPLUS_INCLUDE_PATH" "$boost_lib_path:$CPLUS_INCLUDE_PATH"
 
