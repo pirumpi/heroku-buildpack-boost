@@ -8,17 +8,18 @@ CACHE_DIR=$2
 source $(dirname $0)/../config.sh
 
 function mktmpdir() {
-  dir=$(mktemp -t $1-XXXX)
-  rm -rf $dir
-  mkdir -p $dir
+  dir="$(mktemp -t $1-XXXX)"
+  rm -rf "$dir"
+  mkdir -p "$dir"
+  echo "$dir"
 }
 
 echo "-----> Installing Boost"
 
-boost_lib_path=$BUILD_DIR/vendor/boost
-mkdir -p $boost_lib_path
+boost_lib_path="$BUILD_DIR/vendor/boost"
+mkdir -p "$boost_lib_path"
 VENDORED_BOOST="$(mktmpdir boost)"
 curl "$BOOST_DOWNLOAD_URL" -L -s -o - | tar xzf - -C "$VENDORED_BOOST"
-cp -R $VENDORED_BOOST/* $boost_lib_path
+cp -R $VENDORED_BOOST/* "$boost_lib_path"
 
-echo "-----> Successfully installed boost"
+echo "-----> Successfully installed Boost"
