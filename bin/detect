@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
 # bin/detect <build-dir>
 
+echo "Boost"
 exit 0
