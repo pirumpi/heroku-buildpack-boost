@@ -20,6 +20,7 @@ function mktmpdir() {
 
 function set-env() {
   echo "export $1=$2" >> $PROFILE_PATH
+  source $PROFILE_PATH
 }
 
 boost_lib_path="$BUILD_DIR/vendor/boost"
