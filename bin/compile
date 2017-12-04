@@ -30,4 +30,5 @@ curl "$BOOST_DOWNLOAD_URL" -L -s -o - | tar xzf - -C "$VENDORED_BOOST"
 mv $VENDORED_BOOST/boost_*/boost/* $VENDORED_BOOST
 rm -r $VENDORED_BOOST/boost_*/
 cp -R $VENDORED_BOOST/* "$boost_lib_path"
+echo "Boost downloaded"
 set-env "CPLUS_INCLUDE_PATH" "/app/vendor/boost:$CPLUS_INCLUDE_PATH"
