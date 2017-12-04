@@ -31,4 +31,10 @@ mv $VENDORED_BOOST/boost_*/boost/* $VENDORED_BOOST
 rm -r $VENDORED_BOOST/boost_*/
 cp -R $VENDORED_BOOST/* "$boost_lib_path"
 echo "Boost downloaded"
+cd $boost_lib_path
+./bootstrap.sh --with-libraries=python
+./b2
+sudo ./b2 install
+echo "Boost compiled"
+
 set-env "CPLUS_INCLUDE_PATH" "/app/vendor/boost:$CPLUS_INCLUDE_PATH"
