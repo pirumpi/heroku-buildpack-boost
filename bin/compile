@@ -23,14 +23,14 @@ function set-env() {
   source $PROFILE_PATH
 }
 
-boost_lib_path="/app/.heroku/vendor/include/boost"
+boost_lib_path="/app/.heroku/vendor/include"
 mkdir -p "$boost_lib_path"
 VENDORED_BOOST="$(mktmpdir boost)"
 curl "$BOOST_DOWNLOAD_URL" -L -s -o - | tar xzf - -C "$VENDORED_BOOST"
 cd $VENDORED_BOOST
 cd boost_*
 ls
-./bootstrap.sh --with-libraries=python
+./bootstrap.sh --with-libraries=python --prefix=$boost_lib_path
 ./b2
 ./b2 install
 
@@ -45,4 +45,4 @@ ls
 #sudo ./b2 install
 #echo "Boost compiled"
 
-set-env "CPLUS_INCLUDE_PATH" "/app/vendor/boost:$CPLUS_INCLUDE_PATH"
+set-env "CPLUS_INCLUDE_PATH" "$boost_lib_path/boost:$CPLUS_INCLUDE_PATH"
