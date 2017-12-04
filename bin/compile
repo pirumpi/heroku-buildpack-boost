@@ -32,19 +32,11 @@ cd $VENDORED_BOOST/boost_*
 ./b2
 ./b2 install
 
-
-#mv $VENDORED_BOOST/boost_*/boost/* $VENDORED_BOOST
-#rm -r $VENDORED_BOOST/boost_*/
-#cp -R $VENDORED_BOOST/* "$boost_lib_path"
-#echo "Boost downloaded"
-#cd $boost_lib_path
-#./bootstrap.sh --with-libraries=python
-#./b2
-#sudo ./b2 install
-#echo "Boost compiled"
-
 echo "CPLUS_INCLUDE_PATH : $boost_lib_path/lib:$boost_lib_path/include/boost:$CPLUS_INCLUDE_PATH"
 set-env "CPLUS_INCLUDE_PATH" "$boost_lib_path/lib:$boost_lib_path/include/boost:$CPLUS_INCLUDE_PATH"
 
 echo "LIBDIR : $boost_lib_path/lib:$boost_lib_path/include/boost:$LIBDIR"
 set-env "LIBDIR" "$boost_lib_path/lib:$boost_lib_path/include/boost:$LIBDIR"
+
+set-env "BOOST_ROOT" "$boost_lib_path/include/boost"
+set-env "BOOST_LIBRARYDIR" "$boost_lib_path/lib"
