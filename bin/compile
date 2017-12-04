@@ -28,6 +28,7 @@ mkdir -p "$boost_lib_path"
 VENDORED_BOOST="$(mktmpdir boost)"
 curl "$BOOST_DOWNLOAD_URL" -L -s -o - | tar xzf - -C "$VENDORED_BOOST"
 cd $VENDORED_BOOST
+cd boost_*
 ls
 ./bootstrap.sh --with-libraries=python
 ./b2
