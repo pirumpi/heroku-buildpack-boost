@@ -43,4 +43,8 @@ cd $VENDORED_BOOST/boost_*
 #sudo ./b2 install
 #echo "Boost compiled"
 
+echo "CPLUS_INCLUDE_PATH : $boost_lib_path/boost:$CPLUS_INCLUDE_PATH"
 set-env "CPLUS_INCLUDE_PATH" "$boost_lib_path/boost:$CPLUS_INCLUDE_PATH"
+
+echo "LIBDIR : $boost_lib_path/boost:$LIBDIR"
+set-env "LIBDIR" "$boost_lib_path/boost:$LIBDIR"
