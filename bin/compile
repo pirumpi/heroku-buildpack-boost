@@ -35,7 +35,7 @@ VENDORED_BOOST="$BUILD_DIR/.boost/$BOOST_VERSION"
 
 if [ ! -d "$VENDORED_BOOST" ]; then
   # Control will enter here if VENDORED_BOOST doesn't exist.
-  indent "Download boost start"
+  indent "Download boost start $BOOST_DOWNLOAD_URL"
   mkdir -p "$VENDORED_BOOST"
 
   curl "$BOOST_DOWNLOAD_URL" -L -s -o - | tar xzf - -C "$VENDORED_BOOST"
