@@ -22,11 +22,7 @@ function topic() {
 }
 
 function indent() {
-  c='s/^/       /'
-  case $(uname) in
-    Darwin) sed -l "$c";;
-    *)      sed -u "$c";;
-  esac
+  echo "       $*"
 }
 
 topic "Installing boost"
@@ -39,11 +35,11 @@ VENDORED_BOOST="$BUILD_DIR/.boost/$BOOST_VERSION"
 
 if [ ! -d "$VENDORED_BOOST" ]; then
   # Control will enter here if VENDORED_BOOST doesn't exist.
-  echo "Download boost start"
+  indent "Download boost start"
   mkdir -p "$VENDORED_BOOST"
 
   curl "$BOOST_DOWNLOAD_URL" -L -s -o - | tar xzf - -C "$VENDORED_BOOST"
-  echo "Download boost end"
+  indent "Download boost end"
 fi
 
 
