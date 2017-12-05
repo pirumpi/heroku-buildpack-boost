@@ -26,6 +26,7 @@ function indent() {
 }
 
 topic "Installing boost"
+source $(dirname $0)/../config.sh
 
 indent "BUILD_DIR: $BUILD_DIR"
 indent "CACHE_DIR: $CACHE_DIR"
