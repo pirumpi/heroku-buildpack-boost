@@ -1,28 +1,41 @@
 #!/usr/bin/env bash
 # bin/compile <build-dir> <cache-dir>
 
+# fail fast
 set -e
 
-# Paths.
-BIN_DIR=$(cd "$(dirname "$0")"; pwd) # absolute path
-ROOT_DIR=$(dirname "$BIN_DIR")
+# debug
+# set -x
 
+# parse and derive params
 BUILD_DIR=$1
 CACHE_DIR=$2
-ENV_DIR=$3
+LP_DIR=`cd $(dirname $0); cd ..; pwd`
 
-export BUILD_DIR CACHE_DIR ENV_DIR
+function error() {
+  echo " !     $*" >&2
+  exit 1
+}
 
-echo "BUILD_DIR: $BUILD_DIR"
-echo "CACHE_DIR: $CACHE_DIR"
-echo "ENV_DIR: $ENV_DIR"
+function topic() {
+  echo "-----> $*"
+}
 
-PROFILE_PATH="$BUILD_DIR/.profile.d/boost.sh"
-mkdir -p $(dirname $PROFILE_PATH)
+function indent() {
+  c='s/^/       /'
+  case $(uname) in
+    Darwin) sed -l "$c";;
+    *)      sed -u "$c";;
+  esac
+}
 
-source $(dirname $0)/../config.sh
+topic "Installing boost"
 
-VENDORED_BOOST="$CACHE_DIR/$BOOST_VERSION"
+indent "BUILD_DIR: $BUILD_DIR"
+indent "CACHE_DIR: $CACHE_DIR"
+indent "ENV_DIR: $LP_DIR"
+
+VENDORED_BOOST="$BUILD_DIR/.boost/$BOOST_VERSION"
 
 if [ ! -d "$VENDORED_BOOST" ]; then
   # Control will enter here if VENDORED_BOOST doesn't exist.
@@ -41,17 +54,24 @@ cd $VENDORED_BOOST/boost_*
 ./b2
 ./b2 install
 
-function set-env() {
-  echo "export $1=$2" >> $PROFILE_PATH
-  source $PROFILE_PATH
-}
+topic "Writing profile script"
+mkdir -p $BUILD_DIR/.profile.d
+cat <<EOF >$BUILD_DIR/.profile.d/000_boost.sh
+EOF
 
-echo "CPLUS_INCLUDE_PATH : $boost_lib_path/lib:$boost_lib_path/include/boost:$CPLUS_INCLUDE_PATH"
-set-env "CPLUS_INCLUDE_PATH" "$boost_lib_path/lib:$boost_lib_path/include/boost:$CPLUS_INCLUDE_PATH"
-
-echo "LIBDIR : $boost_lib_path/lib:$boost_lib_path/include/boost:$LIBDIR"
-set-env "LIBDIR" "$boost_lib_path/lib:$boost_lib_path/include/boost:$LIBDIR"
+# Prepend proper path buildpack use.
+export PATH=$BUILD_DIR/.heroku/python/bin:$BUILD_DIR/.heroku/vendor/bin:$PATH
+export PYTHONUNBUFFERED=1
+export LANG=en_US.UTF-8
+export C_INCLUDE_PATH=/app/.heroku/vendor/include:$BUILD_DIR/.heroku/vendor/include:/app/.heroku/python/include
+export CPLUS_INCLUDE_PATH=/app/.heroku/vendor/include:$BUILD_DIR/.heroku/vendor/include:/app/.heroku/python/include
+export LIBRARY_PATH=/app/.heroku/vendor/lib:$BUILD_DIR/.heroku/vendor/lib:/app/.heroku/python/lib
+export LD_LIBRARY_PATH=/app/.heroku/vendor/lib:$BUILD_DIR/.hero ku/vendor/lib:/app/.heroku/python/lib
+export PKG_CONFIG_PATH=/app/.heroku/vendor/lib/pkg-config:$BUILD_DIR/.heroku/vendor/lib/pkg-config:/app/.heroku/python/lib/pkg-config
 
 export BOOST_ROOT="$boost_lib_path"
 export BOOST_INCLUDEDIR="$boost_lib_path/include"
 export BOOST_LIBRARYDIR="$boost_lib_path/lib"
+
+#give environment to later buildpacks
+export | grep -E -e ' (PATH|LD_LIBRARY_PATH|LIBRARY_PATH|INCLUDE_PATH|CPATH|CPPPATH|PKG_CONFIG_PATH)='  > "$LP_DIR/export"
