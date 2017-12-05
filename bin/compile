@@ -3,34 +3,48 @@
 
 set -e
 
+# Paths.
+BIN_DIR=$(cd "$(dirname "$0")"; pwd) # absolute path
+ROOT_DIR=$(dirname "$BIN_DIR")
+
 BUILD_DIR=$1
 CACHE_DIR=$2
+ENV_DIR=$3
+
+export BUILD_DIR CACHE_DIR ENV_DIR
+
+echo "BUILD_DIR: $BUILD_DIR"
+echo "CACHE_DIR: $CACHE_DIR"
+echo "ENV_DIR: $ENV_DIR"
 
 PROFILE_PATH="$BUILD_DIR/.profile.d/boost.sh"
 mkdir -p $(dirname $PROFILE_PATH)
 
 source $(dirname $0)/../config.sh
 
-function mktmpdir() {
-  dir="$(mktemp -t $1-XXXX)"
-  rm -rf "$dir"
-  mkdir -p "$dir"
-  echo "$dir"
-}
+VENDORED_BOOST="$CACHE_DIR/$BOOST_VERSION"
+
+if [ ! -d "$VENDORED_BOOST" ]; then
+  # Control will enter here if VENDORED_BOOST doesn't exist.
+  echo "Download boost start"
+  mkdir -p "$VENDORED_BOOST"
+
+  curl "$BOOST_DOWNLOAD_URL" -L -s -o - | tar xzf - -C "$VENDORED_BOOST"
+  echo "Download boost end"
+fi
+
+
+boost_lib_path="/app/.heroku/vendor"
+
+cd $VENDORED_BOOST/boost_*
+./bootstrap.sh --with-libraries=python --prefix=$boost_lib_path
+./b2
+./b2 install
 
 function set-env() {
   echo "export $1=$2" >> $PROFILE_PATH
   source $PROFILE_PATH
 }
-
-boost_lib_path="/app/.heroku/vendor"
-mkdir -p "$boost_lib_path"
-VENDORED_BOOST="$(mktmpdir boost)"
-curl "$BOOST_DOWNLOAD_URL" -L -s -o - | tar xzf - -C "$VENDORED_BOOST"
-cd $VENDORED_BOOST/boost_*
-./bootstrap.sh --with-libraries=python --prefix=$boost_lib_path
-./b2
-./b2 install
 
 echo "CPLUS_INCLUDE_PATH : $boost_lib_path/lib:$boost_lib_path/include/boost:$CPLUS_INCLUDE_PATH"
 set-env "CPLUS_INCLUDE_PATH" "$boost_lib_path/lib:$boost_lib_path/include/boost:$CPLUS_INCLUDE_PATH"
