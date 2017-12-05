@@ -52,6 +52,6 @@ set-env "CPLUS_INCLUDE_PATH" "$boost_lib_path/lib:$boost_lib_path/include/boost:
 echo "LIBDIR : $boost_lib_path/lib:$boost_lib_path/include/boost:$LIBDIR"
 set-env "LIBDIR" "$boost_lib_path/lib:$boost_lib_path/include/boost:$LIBDIR"
 
-set-env "BOOST_ROOT" "$boost_lib_path"
-set-env "BOOST_INCLUDEDIR" "$boost_lib_path/include"
-set-env "BOOST_LIBRARYDIR" "$boost_lib_path/lib"
+export BOOST_ROOT="$boost_lib_path"
+export BOOST_INCLUDEDIR="$boost_lib_path/include"
+export BOOST_LIBRARYDIR="$boost_lib_path/lib"
