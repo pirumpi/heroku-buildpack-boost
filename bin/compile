@@ -30,7 +30,7 @@ source $(dirname $0)/../config.sh
 
 indent "BUILD_DIR: $BUILD_DIR"
 indent "CACHE_DIR: $CACHE_DIR"
-indent "ENV_DIR: $LP_DIR"
+indent "LP_DIR: $LP_DIR"
 
 VENDORED_BOOST="$BUILD_DIR/.boost/$BOOST_VERSION"
 
@@ -41,6 +41,9 @@ if [ ! -d "$VENDORED_BOOST" ]; then
 
   curl "$BOOST_DOWNLOAD_URL" -L -s -o - | tar xzf - -C "$VENDORED_BOOST"
   indent "Download boost end"
+
+  cp $(dirname $0)/user-config.jam $VENDORED_BOOST/boost_*/tools/build/example/
+
 fi
 
 boost_lib_path="$BUILD_DIR/.heroku/vendor"
@@ -48,7 +51,6 @@ mkdir -p "$boost_lib_path"
 
 
 cd $VENDORED_BOOST/boost_*
-cp $LP_DIR/bin/user-config.jam ./tools/build/example/
 ./bootstrap.sh --with-libraries=python --prefix=$boost_lib_path --with-python=/usr/local/bin/python3 --with-python-version=3.6 --with-python-root=/usr/local/lib/python3.6
 ./b2
 ./b2 install
