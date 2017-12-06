@@ -46,17 +46,30 @@ if [ ! -d "$VENDORED_BOOST" ]; then
 
 fi
 
+# Prepend proper environment variables for Python use.
+export PATH=/app/.heroku/python/bin:/app/.heroku/vendor/bin:$PATH
+export PYTHONUNBUFFERED=1
+export LANG=en_US.UTF-8
+export C_INCLUDE_PATH=/app/.heroku/vendor/include:/app/.heroku/python/include:$C_INCLUDE_PATH
+export CPLUS_INCLUDE_PATH=/app/.heroku/vendor/include:/app/.heroku/python/include:$CPLUS_INCLUDE_PATH
+export LIBRARY_PATH=/app/.heroku/vendor/lib:/app/.heroku/python/lib:$LIBRARY_PATH
+export LD_LIBRARY_PATH=/app/.heroku/vendor/lib:/app/.heroku/python/lib:$LD_LIBRARY_PATH
+export PKG_CONFIG_PATH=/app/.heroku/vendor/lib/pkg-config:/app/.heroku/python/lib/pkg-config:$PKG_CONFIG_PATH
+
+
 boost_lib_path="$BUILD_DIR/.heroku/vendor"
 mkdir -p "$boost_lib_path"
 
-export
-rm -rf /usr/include/python2.7
+
 testsetestset
 cd $VENDORED_BOOST/boost_*
 
 WITH_PYTHON="$BUILD_DIR/.heroku/python/bin/python3"
 WITH_PYTHON_VERSION="3.6"
 WITH_PYTHON_ROOT="$BUILD_DIR/.heroku/python/lib/python3.6"
+
+export PYTHONHOME=$WITH_PYTHON:$PYTHONPATH
+
 
 topic "./bootstrap.sh --with-libraries=python --prefix=$boost_lib_path --with-python=$WITH_PYTHON --with-python-version=$WITH_PYTHON_VERSION --with-python-root=$WITH_PYTHON_ROOT"
 
