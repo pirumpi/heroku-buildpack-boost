@@ -51,7 +51,7 @@ mkdir -p "$boost_lib_path"
 
 
 cd $VENDORED_BOOST/boost_*
-
+python --version
 WITH_PYTHON=$(which python3)
 WITH_PYTHON_VERSION=3.6
 WITH_PYTHON_ROOT=$(dirname $(which python3))
