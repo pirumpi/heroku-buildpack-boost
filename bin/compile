@@ -41,7 +41,7 @@ if [ ! -d "$VENDORED_BOOST" ]; then
 
   curl "$BOOST_DOWNLOAD_URL" -L -s -o - | tar xzf - -C "$VENDORED_BOOST"
   indent "Download boost end"
-
+  ls -al
   cp $(dirname $0)/user-config.jam $VENDORED_BOOST/boost_*/tools/build/example/
 
 fi
