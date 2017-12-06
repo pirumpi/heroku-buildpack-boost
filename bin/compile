@@ -48,6 +48,7 @@ mkdir -p "$boost_lib_path"
 
 
 cd $VENDORED_BOOST/boost_*
+cp $ENV_DIR/bin/user-config.jam ./tools/build/example/
 ./bootstrap.sh --with-libraries=python --prefix=$boost_lib_path --with-python=/usr/local/bin/python3 --with-python-version=3.6 --with-python-root=/usr/local/lib/python3.6
 ./b2
 ./b2 install
