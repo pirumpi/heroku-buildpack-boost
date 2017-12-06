@@ -61,7 +61,6 @@ topic "./bootstrap.sh --with-libraries=python --prefix=$boost_lib_path --with-py
 ./bootstrap.sh --with-libraries=python --prefix=$boost_lib_path --with-python=$WITH_PYTHON --with-python-version=$WITH_PYTHON_VERSION --with-python-root=$WITH_PYTHON_ROOT
 cat project-config.jam
 
-breakhere
 ./b2
 ./b2 install
 
