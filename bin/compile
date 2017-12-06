@@ -60,22 +60,17 @@ export PKG_CONFIG_PATH=/app/.heroku/vendor/lib/pkg-config:/app/.heroku/python/li
 boost_lib_path="$BUILD_DIR/.heroku/vendor"
 mkdir -p "$boost_lib_path"
 
-
-testsetestset
 cd $VENDORED_BOOST/boost_*
 
 WITH_PYTHON="$BUILD_DIR/.heroku/python/bin/python3"
 WITH_PYTHON_VERSION="3.6"
 WITH_PYTHON_ROOT="$BUILD_DIR/.heroku/python/lib/python3.6"
 
-export PYTHONHOME=$WITH_PYTHON:$PYTHONPATH
-
-
 topic "./bootstrap.sh --with-libraries=python --prefix=$boost_lib_path --with-python=$WITH_PYTHON --with-python-version=$WITH_PYTHON_VERSION --with-python-root=$WITH_PYTHON_ROOT"
 
 ./bootstrap.sh --with-libraries=python --prefix=$boost_lib_path --with-python=$WITH_PYTHON --with-python-version=$WITH_PYTHON_VERSION --with-python-root=$WITH_PYTHON_ROOT
 cat project-config.jam
-
+testsetestset
 ./b2
 ./b2 install
 
