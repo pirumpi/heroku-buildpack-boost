@@ -49,7 +49,9 @@ fi
 boost_lib_path="$BUILD_DIR/.heroku/vendor"
 mkdir -p "$boost_lib_path"
 
-
+export
+rm -rf /usr/include/python2.7
+testsetestset
 cd $VENDORED_BOOST/boost_*
 
 WITH_PYTHON="$BUILD_DIR/.heroku/python/bin/python3"
