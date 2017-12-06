@@ -43,7 +43,9 @@ if [ ! -d "$VENDORED_BOOST" ]; then
   indent "Download boost end"
 fi
 
-boost_lib_path="/app/.heroku/vendor"
+boost_lib_path="$BUILD_DIR/.heroku/vendor"
+mkdir -p "$boost_lib_path"
+
 
 cd $VENDORED_BOOST/boost_*
 ./bootstrap.sh --with-libraries=python --prefix=$boost_lib_path

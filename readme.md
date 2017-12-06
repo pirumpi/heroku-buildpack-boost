@@ -2,6 +2,10 @@
 
 Installs the Boost C++ libraries
 
+Download and compile boost for later buildpacks.
+
+Python buildpacks on heroku like dlib use boost.  dlib fails if the findboost function fails.  This buildpack will download, complile, install and set the necessary hint environment vars for later python buildback to consume.  This allows dlib to compile successfully.
+
 ## Usage
 
 Designed to be used with [`heroku-buildpack-multi`](https://github.com/heroku/heroku-buildpack-multi).
