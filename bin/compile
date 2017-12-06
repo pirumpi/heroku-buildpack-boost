@@ -51,15 +51,15 @@ mkdir -p "$boost_lib_path"
 
 
 cd $VENDORED_BOOST/boost_*
-python3 --version
-which python3
-WITH_PYTHON="$(which python3)"
+
+WITH_PYTHON="$BUILD_DIR/.heroku/python/bin/python3.6"
 WITH_PYTHON_VERSION="3.6"
-WITH_PYTHON_ROOT="$(dirname $(which python3))"
+WITH_PYTHON_ROOT="$BUILD_DIR/.heroku/python/"
 
 topic "./bootstrap.sh --with-libraries=python --prefix=$boost_lib_path --with-python=$WITH_PYTHON --with-python-version=$WITH_PYTHON_VERSION --with-python-root=$WITH_PYTHON_ROOT"
 
 ./bootstrap.sh --with-libraries=python --prefix=$boost_lib_path --with-python=$WITH_PYTHON --with-python-version=$WITH_PYTHON_VERSION --with-python-root=$WITH_PYTHON_ROOT
+cat project-config.jam
 
 breakhere
 ./b2
