@@ -52,7 +52,7 @@ mkdir -p "$boost_lib_path"
 
 cd $VENDORED_BOOST/boost_*
 
-WITH_PYTHON="$BUILD_DIR/.heroku/python/bin/python3.6"
+WITH_PYTHON="$BUILD_DIR/.heroku/python/bin/python3"
 WITH_PYTHON_VERSION="3.6"
 WITH_PYTHON_ROOT="$BUILD_DIR/.heroku/python/"
 
