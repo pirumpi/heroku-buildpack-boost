@@ -10,5 +10,5 @@ Python buildpacks on heroku like dlib use boost.  dlib fails if the findboost fu
 
 Designed to be used with [`heroku-buildpack-multi`](https://github.com/heroku/heroku-buildpack-multi).
 
-There will be strict warnings during output. Tested successfully with Python 3.6.3 and dlib 19.7.0.
+There will be strict warnings during output. Tested successfully with python 2.7.14 and dlib 19.7.0.
 
