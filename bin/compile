@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 # bin/compile <build-dir> <cache-dir>
 
+title() {
+  echo "-----> $*"
+}
+
 # fail fast
 set -e
 
