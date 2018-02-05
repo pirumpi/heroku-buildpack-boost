@@ -67,3 +67,9 @@ export BOOST_LIBRARYDIR="$boost_lib_path/lib"
 
 #give environment to later buildpacks
 export | grep -E -e ' (BOOST_ROOT|BOOST_INCLUDEDIR|BOOST_LIBRARYDIR)='  > "$LP_DIR/export"
+
+# installing application dependencies
+if [ -f $BUILD_DIR/requirements.txt ]; then
+	title "Found requirements.txt, installing dependencies using pip"
+	$BUILD_DIR/.heroku/vendor/bin/pip install -r requirements.txt --exists-action=w --src=./.heroku/src --allow-all-external
+fi
