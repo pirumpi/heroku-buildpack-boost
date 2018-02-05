@@ -12,6 +12,11 @@ BUILD_DIR=$1
 CACHE_DIR=$2
 LP_DIR=`cd $(dirname $0); cd ..; pwd`
 
+unset LD_LIBRARY_PATH PATH PYTHONPATH
+export LD_LIBRARY_PATH="$BUILD_DIR/.heroku/vendor/lib"
+export PATH="$BUILD_DIR/.heroku/vendor/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+export PYTHONPATH="$BUILD_DIR/.heroku/vendor/lib/python3.6"
+
 function error() {
   echo " !     $*" >&2
   exit 1
