@@ -51,7 +51,7 @@ cd $VENDORED_BOOST/boost_*
 
 topic "./bootstrap.sh --with-libraries=python --prefix=$boost_lib_path"
 
-./bootstrap.sh --with-libraries=python --prefix=$boost_lib_path
+./bootstrap.sh --with-libraries=python --with-python=python3.6 --prefix=$boost_lib_path
 ./b2
 ./b2 install
 
